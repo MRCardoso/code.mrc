@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: CodeMRC
+        psr4_prefix: CodeMRC
+        src_path: app
