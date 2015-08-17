@@ -11,7 +11,7 @@
 |
 */
 
-$factory->define(CodeMRC\User::class, function (Faker\Generator $faker) {
+$factory->define(CodeMRC\Entities\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
@@ -20,7 +20,7 @@ $factory->define(CodeMRC\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(CodeMRC\Client::class, function (Faker\Generator $faker) {
+$factory->define(CodeMRC\Entities\Client::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'responsible' => $faker->name,
@@ -28,5 +28,17 @@ $factory->define(CodeMRC\Client::class, function (Faker\Generator $faker) {
         'phone' => $faker->phoneNumber,
         'address' => $faker->address,
         'observation' => $faker->sentence,
+    ];
+});
+
+$factory->define(CodeMRC\Entities\Project::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'description' => $faker->sentence(),
+        'progress' => $faker->word,
+        'status' => $faker->numberBetween(0,1),
+        'due_date' => $faker->date(),
+        'owner_id' => $faker->numberBetween(1,10),
+        'client_id' => $faker->numberBetween(1,18),
     ];
 });

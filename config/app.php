@@ -103,7 +103,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | The service providers listed here will be automatically loaded on the
-    | request to your application. Feel free to add your own services to
+    | request to your application. Feel free to add your own Services to
     | this array to grant expanded functionality to your applications.
     |
     */
@@ -136,13 +136,16 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Illuminate\Html\HtmlServiceProvider::class,
 
+        Prettus\Repository\Providers\RepositoryServiceProvider::class,
         /*
          * Application Service Providers...
          */
         CodeMRC\Providers\AppServiceProvider::class,
         CodeMRC\Providers\EventServiceProvider::class,
         CodeMRC\Providers\RouteServiceProvider::class,
+        CodeMRC\Providers\CodeMRCRepositoryProvider::class
 
     ],
 
@@ -191,7 +194,8 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
-
+        'Form'      => Illuminate\Html\FormFacade::class,
+        'Html'      => Illuminate\Html\HtmlFacade::class,
     ],
 
 ];
