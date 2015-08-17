@@ -57,12 +57,12 @@
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-warning">
-                            Do you want delete this record
+                            Voce deseja remover este {{$module}}
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary">Save changes</button>
+                        <button class="btn btn-primary">Remover</button>
                     </div>
                 </div>
                 {!! Form::close() !!}

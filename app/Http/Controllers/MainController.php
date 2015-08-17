@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * this is the main class for execution the CRUD in all modules
+ * and implement the REST methods GET PUT POST and DELETE
+ */
 namespace CodeMRC\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -7,6 +10,7 @@ use Illuminate\Http\Request;
 abstract class MainController extends Controller
 {
     /**
+     * object dynamic informed in the called of the view
      * @var array
      */
     protected $params = [];
@@ -122,5 +126,4 @@ abstract class MainController extends Controller
         $this->service->destroy($id);
         return redirect($this->_controller_name);
     }
-//    protected abstract function validations($request);
 }
