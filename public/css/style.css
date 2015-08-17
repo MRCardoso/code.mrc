@@ -1,0 +1,9 @@
+.content{
+    padding: 1.5%;
+    border: 1px solid #E6DAFF;
+    background: #FAFAFA;
+}
+.content-small{
+    width: 50%;
+    margin: auto;
+}
