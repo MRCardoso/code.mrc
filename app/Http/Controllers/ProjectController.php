@@ -41,11 +41,11 @@ class ProjectController extends MainController
                                 ClientRepository $clientRepository,
                                 UserRepository $userRepository)
     {
-        $this->repository = $repository;
-        $this->service = $service;
-        $this->clientRepository = $clientRepository;
-        $this->userRepository = $userRepository;
-        $this->params["progress"] = $this->progress;
+        $this->service              = $service;
+        $this->repository           = $repository;
+        $this->clientRepository     = $clientRepository;
+        $this->userRepository       = $userRepository;
+        $this->params["progress"]   = $this->progress;
     }
     /**
      * Show the form for creating a new resource.
