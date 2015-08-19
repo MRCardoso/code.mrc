@@ -35,10 +35,10 @@ $factory->define(CodeMRC\Entities\Project::class, function (Faker\Generator $fak
     return [
         'name' => $faker->name,
         'description' => $faker->sentence(),
-        'progress' => $faker->word,
+        'progress' => $faker->numberBetween(0,4),
         'status' => $faker->numberBetween(0,1),
         'due_date' => $faker->date(),
         'owner_id' => $faker->numberBetween(1,10),
-        'client_id' => $faker->numberBetween(1,18),
+        'client_id' => $faker->numberBetween(1,10),
     ];
 });
