@@ -12,6 +12,8 @@ class ProjectTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement("TRUNCATE TABLE \"user\" CASCADE");
+        DB::statement("TRUNCATE TABLE \"client\" CASCADE");
         Project::truncate();
         factory(Project::class,5)->create();
     }
