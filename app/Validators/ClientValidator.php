@@ -12,16 +12,16 @@ class ClientValidator extends LaravelValidator
             "email" => "required|email|unique:client|max:255",
             "name" => "required|max:255",
             "responsible" => "required|max:255",
-            "phone" => "max:255",
-            "address" => "max:255",
-            "observation" => "max:255",
+            "phone" => "required|max:255",
+            "address" => "required|max:255",
+            "observation" => "required|max:255",
         ],
         ValidatorInterface::RULE_UPDATE => [
             "name" => "required|max:255",
             "responsible" => "required|max:255",
-            "phone" => "max:255",
-            "address" => "max:255",
-            "observation" => "max:255",
+            "phone" => "required|max:255",
+            "address" => "required|max:255",
+            "observation" => "required|max:255",
         ],
     ];
 }

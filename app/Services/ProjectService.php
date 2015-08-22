@@ -26,14 +26,14 @@ class ProjectService
     public function create(Array $data)
     {
         try{
-            if($data["due_date"]=="") unset($data["due_date"]);
+            if(isset($data["due_date"]) && $data["due_date"]=="")
+            {
+                unset($data["due_date"]);
+            }
             $this->validator->with($data)->passesOrFail();
-            $this->repository->create($data);
-            return redirect('project');
+            return $this->repository->create($data);
         } catch(ValidatorException $e) {
-            return redirect('project/create')
-                ->withErrors($e->getMessageBag())
-                ->withInput();
+            return $e->getMessageBag();
         }
     }
 
@@ -41,17 +41,28 @@ class ProjectService
     {
         try{
             $this->validator->with($data)->passesOrFail();
-            $this->repository->update($data, $id);
-            return redirect('project');
+            return $this->repository->update($data, $id);
         } catch(ValidatorException $e) {
-            return redirect('project/create')
-                ->withErrors($e->getMessageBag())
-                ->withInput();
+            return $e->getMessageBag();
         }
     }
 
     public function destroy($id)
     {
-        return $this->repository->find($id)->delete();
+        if($this->repository->delete($id))
+        {
+            $response = [
+                "status" => true,
+                "message" => "Projeto removido com sucesso"
+            ];
+        }
+        else
+        {
+            $response = [
+                "status" => false,
+                "message" => "falha ao remover Projeto"
+            ];
+        }
+        return response()->json($response);
     }
 }

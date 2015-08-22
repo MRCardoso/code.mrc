@@ -31,30 +31,7 @@ abstract class MainController extends Controller
      */
     public function index()
     {
-        $output = $this->repository->listPage();
-        $data = [
-            'module' => ucwords($this->_controller_name),
-            'output' => $output
-        ];
-
-        if($this->params!==array())
-        {
-            foreach ($this->params as $k=>$v)
-                $data[$k] = $v;
-        }
-        return view("{$this->_controller_name}.index",$data);
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create()
-    {
-        return view("{$this->_controller_name}.create", [
-            'module' => ucwords($this->_controller_name),
-            'save' => 'Create'
-        ]);
+        return $this->repository->all();
     }
     /**
      * Store a newly created resource in storage.
@@ -74,34 +51,7 @@ abstract class MainController extends Controller
      */
     public function show($id)
     {
-        $output = $this->repository->find($id);
-        $data = [
-            'module' => ucwords($this->_controller_name),
-            'save' => 'View',
-            'output' => $output
-        ];
-        if($this->params!==array())
-        {
-            foreach ($this->params as $k=>$v)
-                $data[$k] = $v;
-        }
-        return view("{$this->_controller_name}.show",$data);
-    }
-    /**
-     * Show the form for updating a resource.
-     *
-     * @param $id
-     * @return \Illuminate\View\View
-     */
-    public function edit($id)
-    {
-        $object = $this->repository->find($id);
-
-        return view("{$this->_controller_name}.edit", [
-            'module'    => ucwords($this->_controller_name),
-            'save'      => 'Edit',
-            'object'  => $object
-        ]);
+        return $this->repository->find($id);
     }
     /**
      * Update the specified resource in storage.
@@ -123,7 +73,6 @@ abstract class MainController extends Controller
      */
     public function destroy($id)
     {
-        $this->service->destroy($id);
-        return redirect($this->_controller_name);
+        return $this->service->destroy($id);
     }
 }

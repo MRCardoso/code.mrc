@@ -2,7 +2,9 @@
 
 namespace CodeMRC\Services;
 
+use CodeMRC\Entities\Project;
 use CodeMRC\Repositories\ClientRepository;
+use CodeMRC\Repositories\ProjectRepository;
 use CodeMRC\Validators\ClientValidator;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
@@ -13,15 +15,23 @@ class ClientService
      * @var ClientRepository
      */
     protected $repository;
+    /**
+     * @var ClientValidator
+     */
     protected $validator;
+    /**
+     * @var
+     */
+    protected $projectRepository;
     /**
      * @param ClientRepository $repository
      * @param ClientValidator $validator
      */
-    public function __construct(ClientRepository $repository, ClientValidator $validator)
+    public function __construct(ClientRepository $repository, ClientValidator $validator, ProjectRepository $projectRepository)
     {
         $this->repository = $repository;
         $this->validator = $validator;
+        $this->projectRepository = $projectRepository;
     }
 
     public function create(Array $data)
@@ -29,13 +39,10 @@ class ClientService
         try
         {
             $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
-            $this->repository->create($data);
+            return $this->repository->create($data);
         } catch(ValidatorException $e){
-            return redirect("client/create")
-                ->withErrors($e->getMessageBag())
-                ->withInput();
+            return $e->getMessageBag();
         }
-        return redirect("client");
     }
 
     public function update(Array $data,$id)
@@ -43,17 +50,41 @@ class ClientService
         try
         {
             $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
-            $this->repository->update($data, $id);
+            return $this->repository->update($data, $id);
         } catch(ValidatorException $e){
-            return redirect("client/{$id}/edit")
-                ->withErrors($e->getMessageBag())
-                ->withInput();
+            return $e->getMessageBag();
         }
-        return redirect("client");
     }
 
     public function destroy($id)
     {
-        return $this->repository->find($id)->delete();
+        $projects = $this->projectRepository->findWhere(['client_id' => $id]);
+        if(count($projects)>0)
+        {
+            $list = [];
+            foreach($projects as $project)
+            {
+                array_push($list,$project->description);
+            }
+            return response()->json([
+                "status" => false,
+                "message" => "Este cliente não pode ser deletado pois ele encotra-se nos seguntes projetos: ".implode(',',$list)
+            ]);
+        }
+        if($this->repository->delete($id))
+        {
+            $response = [
+                "status" => true,
+                "message" => "Cliente removido com sucesso"
+            ];
+        }
+        else
+        {
+            $response = [
+                "status" => false,
+                "message" => "falha ao remover cliente"
+            ];
+        }
+        return response()->json($response);
     }
 }
