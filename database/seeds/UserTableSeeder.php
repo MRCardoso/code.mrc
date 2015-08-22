@@ -12,7 +12,7 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        User::truncate();
-        factory(User::class,10)->create();
+        DB::statement("TRUNCATE TABLE \"user\" CASCADE");
+        factory(User::class,20)->create();
     }
 }

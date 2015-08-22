@@ -32,13 +32,15 @@ $factory->define(CodeMRC\Entities\Client::class, function (Faker\Generator $fake
 });
 
 $factory->define(CodeMRC\Entities\Project::class, function (Faker\Generator $faker) {
+    $owner = CodeMRC\Entities\User::orderByRaw("RANDOM()")->first();
+    $client = CodeMRC\Entities\Client::orderByRaw("RANDOM()")->first();
     return [
         'name' => $faker->name,
         'description' => $faker->sentence(),
         'progress' => $faker->numberBetween(0,4),
         'status' => $faker->numberBetween(0,1),
         'due_date' => $faker->date(),
-        'owner_id' => $faker->numberBetween(1,10),
-        'client_id' => $faker->numberBetween(1,10),
+        'owner_id' => $owner->id,
+        'client_id' => $client->id,
     ];
 });

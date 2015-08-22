@@ -12,7 +12,7 @@ class ClientTableSeeder extends Seeder
      */
     public function run()
     {
-        Client::truncate();
-	    factory(Client::class,18)->create();
+        DB::statement("TRUNCATE TABLE \"client\" CASCADE");
+	    factory(Client::class,20)->create();
     }
 }
