@@ -83,7 +83,7 @@ class Service
      | convert float number and date to format database
      |
      */
-    private function validateField($attributes, &$fields)
+    protected function validateField($attributes, &$fields)
     {
         foreach ($attributes as $line)
         {

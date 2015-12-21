@@ -43,6 +43,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call(ProjectTaskTableSeeder::class);
 
+        $this->call(ProjectMembersTableSeeder::class);
+
         Model::reguard();
     }
 }

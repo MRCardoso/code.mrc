@@ -41,5 +41,9 @@ class CodeMRCRepositoryProvider extends ServiceProvider
             \CodeMRC\Repositories\ProjectTaskRepository::class,
             \CodeMRC\Repositories\ProjectTaskRepositoryEloquent::class
         );
+        $this->app->bind(
+            \CodeMRC\Repositories\ProjectMembersRepository::class,
+            \CodeMRC\Repositories\ProjectMembersRepositoryEloquent::class
+        );
     }
 }

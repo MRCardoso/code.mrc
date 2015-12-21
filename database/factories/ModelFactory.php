@@ -54,3 +54,11 @@ $factory->define(CodeMRC\Entities\ProjectTask::class, function (Faker\Generator 
         'status' => rand(1,0)
     ];
 });
+$factory->define(CodeMRC\Entities\ProjectMembers::class, function (Faker\Generator $faker) {
+    $user = CodeMRC\Entities\User::orderByRaw("RANDOM()")->first();
+    $project = CodeMRC\Entities\Project::orderByRaw("RANDOM()")->first();
+    return [
+        'user_id' => $user->id,
+        'project_id' => $project->id,
+    ];
+});

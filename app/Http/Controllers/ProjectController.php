@@ -6,6 +6,7 @@ use CodeMRC\Services\ProjectService;
 use CodeMRC\Repositories\UserRepository;
 use CodeMRC\Repositories\ClientRepository;
 use CodeMRC\Repositories\ProjectRepository;
+use Illuminate\Http\Request;
 
 /**
  * Class ProjectController
@@ -38,5 +39,23 @@ class ProjectController extends MainController
         $this->repository           = $repository;
         $this->clientRepository     = $clientRepository;
         $this->userRepository       = $userRepository;
+    }
+    public function members($id)
+    {
+        return response()->json(
+            $this->repository->with(['projectMembers'])->find($id)
+        );
+    }
+
+    public function addMember(Request $request, $id)
+    {
+        $data = $request->all();
+        $data["project_id"] = $id;
+        return $this->service->addMember($data);
+    }
+
+    public function removeMember($id, $member)
+    {
+        return $this->service->removeMember($id, $member);
     }
 }

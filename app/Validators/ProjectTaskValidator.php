@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mrcardoso
- * Date: 21/12/15
- * Time: 12:06
- */
-
 namespace CodeMRC\Validators;
-
 
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\LaravelValidator;
