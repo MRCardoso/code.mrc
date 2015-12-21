@@ -28,5 +28,12 @@ class Repository extends BaseRepository
             return $query->orderBy($this->order[0],$this->order[1]);
         })->paginate($this->limit);
     }
-
+    /**
+     * get the field allow in the class
+     * @return array
+     */
+    public function attributes()
+    {
+        return $this->model->getFillable();
+    }
 }

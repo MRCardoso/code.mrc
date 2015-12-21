@@ -44,3 +44,13 @@ $factory->define(CodeMRC\Entities\Project::class, function (Faker\Generator $fak
         'client_id' => $client->id,
     ];
 });
+$factory->define(CodeMRC\Entities\ProjectTask::class, function (Faker\Generator $faker) {
+    $project = CodeMRC\Entities\Project::orderByRaw("RANDOM()")->first();
+    return [
+        'name' => $faker->name,
+        'project_id' => $project->id,
+        'start_date' => $faker->date(),
+        'due_date' => NULL,
+        'status' => rand(1,0)
+    ];
+});

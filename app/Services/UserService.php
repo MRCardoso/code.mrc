@@ -12,19 +12,9 @@ namespace CodeMRC\Services;
 use CodeMRC\Repositories\ProjectRepository;
 use CodeMRC\Repositories\UserRepository;
 use CodeMRC\Validators\UserValidator;
-use Prettus\Validator\Contracts\ValidatorInterface;
-use Prettus\Validator\Exceptions\ValidatorException;
 
-class UserService
+class UserService extends Service
 {
-    /**
-     * @var UserRepository
-     */
-    protected $repository;
-    /**
-     * @var UserValidator
-     */
-    protected $validator;
     /**
      * @var ProjectRepository
      */
@@ -39,26 +29,6 @@ class UserService
         $this->repository = $repository;
         $this->validator = $validator;
         $this->projectRepository = $projectRepository;
-    }
-
-    public function create(Array $data)
-    {
-        try{
-            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
-            return $this->repository->create($data);
-        } catch(ValidatorException $e){
-            return $e->getMessageBag();
-        }
-    }
-
-    public function update(Array $data,$id)
-    {
-        try{
-            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
-            return $this->repository->update($data, $id);
-        } catch(ValidatorException $e){
-            return $e->getMessageBag();
-        }
     }
 
     public function destroy($id)
@@ -76,20 +46,6 @@ class UserService
                 "message" => "Este usuário não pode ser deletado pois ele encotra-se nos seguntes projetos: ".implode(',',$list)
             ]);
         }
-        if($this->repository->delete($id))
-        {
-            $response = [
-                "status" => true,
-                "message" => "Usuário removido com sucesso"
-            ];
-        }
-        else
-        {
-            $response = [
-                "status" => false,
-                "message" => "falha ao remover usuário"
-            ];
-        }
-        return response()->json($response);
+        return parent::destroy($id);
     }
 }
