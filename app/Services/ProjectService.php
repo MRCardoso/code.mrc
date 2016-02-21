@@ -1,11 +1,10 @@
 <?php
 namespace CodeMRC\Services;
 
-use CodeMRC\Repositories\ProjectMembersRepository;
+use CodeMRC\Repositories\ProjectFileRepository;
 use CodeMRC\Repositories\ProjectRepository;
-use CodeMRC\Validators\ProjectMembersValidator;
 use CodeMRC\Validators\ProjectValidator;
-use PhpParser\Node\Expr\Array_;
+
 
 class ProjectService extends Service
 {
@@ -13,16 +12,15 @@ class ProjectService extends Service
      * @var ProjectMembersService
      */
     private $membersService;
-    /**
-     * @param ProjectRepository $repository
-     * @param ProjectValidator $validator
-     * @param ProjectMembersService $membersService
-     */
+    private $projectFileRepository;
+
     public function __construct(
         ProjectRepository $repository,
         ProjectValidator $validator,
-        ProjectMembersService $membersService)
+        ProjectMembersService $membersService,
+        ProjectFileRepository $projectFileRepository)
     {
+        $this->projectFileRepository = $projectFileRepository;
         $this->membersService = $membersService;
         $this->repository = $repository;
         $this->validator = $validator;

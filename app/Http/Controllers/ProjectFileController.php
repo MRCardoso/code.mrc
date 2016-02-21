@@ -2,20 +2,31 @@
 
 namespace CodeMRC\Http\Controllers;
 
+use CodeMRC\Repositories\ProjectFileRepository;
+use CodeMRC\Services\ProjectFileService;
 use Illuminate\Http\Request;
 
 use CodeMRC\Http\Requests;
-use CodeMRC\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
-class ProjectFileController extends Controller
+class ProjectFileController extends MainController
 {
-    public function store(Request $request)
+    public function __construct(ProjectFileService $service, ProjectFileRepository $repository)
     {
-        $file = $request->file('file');
-        $extension = $file->getClientOriginalExtension();
+        $this->service = $service;
+        $this->repository = $repository;
+    }
 
-        Storage::put($request->name.".".$extension, File::get($file));
+    public function listFile($project_id)
+    {
+        return $this->repository->findWhere(['project_id'=>$project_id]);
+    }
+    public function storeFile(Request $request, $project_id)
+    {
+        return $this->service->createFile($request->all(), $project_id);
+    }
+
+    public function destroyFile($project_id, $id)
+    {
+        return $this->service->destroyFile($project_id, $id);
     }
 }
