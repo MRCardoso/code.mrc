@@ -45,6 +45,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call(ProjectMembersTableSeeder::class);
 
+        $this->call(OAuthClientSeeder::class);
+
         Model::reguard();
     }
 }

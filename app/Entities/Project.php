@@ -31,7 +31,7 @@ class Project extends Model
      * Relation BelongsTo{ a project belong to one user }
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function User()
+    public function user()
     {
         return $this->belongsTo('CodeMRC\Entities\User','owner_id');
     }
@@ -40,7 +40,7 @@ class Project extends Model
      * Relation BelongsTo{ a project belong to one client }
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Client()
+    public function client()
     {
         return $this->belongsTo('CodeMRC\Entities\Client');
     }
@@ -49,13 +49,13 @@ class Project extends Model
      * Relation HasMany{ a project has zero or N tasks}
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ProjectTask()
+    public function tasks()
     {
         return $this->hasMany('CodeMRC\Entities\ProjectTask');
     }
 
-    public function ProjectMembers()
+    public function members()
     {
-        return $this->hasMany('CodeMRC\Entities\ProjectMembers');
+        return $this->belongsToMany(User::class, 'project_members');
     }
 }

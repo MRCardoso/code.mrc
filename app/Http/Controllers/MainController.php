@@ -51,6 +51,9 @@ abstract class MainController extends Controller
      */
     public function show($id)
     {
+        if( ( $result = $this->checkAuthorizer($id) ) !== TRUE )
+            return $result;
+
         return $this->repository->find($id);
     }
     /**
@@ -62,6 +65,9 @@ abstract class MainController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if( ( $result = $this->checkAuthorizer($id) ) !== TRUE )
+            return $result;
+
         return $this->service->update($request->all(),$id);
     }
 
@@ -73,6 +79,22 @@ abstract class MainController extends Controller
      */
     public function destroy($id)
     {
+        if( ( $result = $this->checkAuthorizer($id) ) !== TRUE )
+            return $result;
+
         return $this->service->destroy($id);
+    }
+
+    /**
+     * method to verify in actions show,update and destroy
+     * the authorization of the user to access this method
+     * by default return true
+     *
+     * @param $id
+     * @return bool
+     */
+    protected function checkAuthorizer($id)
+    {
+        return TRUE;
     }
 }
