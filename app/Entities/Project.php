@@ -58,4 +58,9 @@ class Project extends Model
     {
         return $this->hasMany('CodeMRC\Entities\ProjectMembers');
     }
+
+    public function files()
+    {
+        return $this->hasMany(ProjectFile::class);
+    }
 }
