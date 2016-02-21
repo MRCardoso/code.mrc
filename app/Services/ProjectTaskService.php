@@ -31,13 +31,22 @@ class ProjectTaskService extends Service
     }
     public function updateTask(Array $data, $projectId, $id)
     {
-        try{
-            $data["project_id"] = $projectId;
-            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
-            $this->validateField($this->repository->attributes(), $data);
-            return $this->repository->update($data, $id);
-        } catch(ValidatorException $e){
-            return $e->getMessageBag();
+        $task = $this->repository->findWhere(['project_id' => $projectId, 'id' => $id]);
+
+        if( count($task) > 0 )
+        {
+            try{
+                $data["project_id"] = $projectId;
+                $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+                $this->validateField($this->repository->attributes(), $data);
+                return $this->repository->update($data, $id);
+            } catch(ValidatorException $e){
+                return $e->getMessageBag();
+            }
+        }
+        else
+        {
+            return response()->json(['status' => 'error', 'message' => 'this task not bolongs to this project.']);
         }
     }
 

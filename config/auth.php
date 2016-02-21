@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'model' => CodeMRC\User::class,
+    'model' => CodeMRC\Entities\User::class,
 
     /*
     |--------------------------------------------------------------------------

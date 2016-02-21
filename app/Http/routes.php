@@ -14,32 +14,54 @@
 Route::get('/', function () {
     return "Welcome";
 });
+// OAuth generate token
+Route::post('oauth/access_token', function(){
+    return response()->json(Authorizer::issueAccessToken());
+});
 
-// --------------------Client------------------------------
-Route::get('client', 'ClientController@index');
-Route::post('client', 'ClientController@store');
-Route::get('client/{id}', 'ClientController@show');
-Route::put('client/{id}', 'ClientController@update');
-Route::delete('client/{id}', 'ClientController@destroy');
-// --------------------User--------------------------------
-Route::get('user', 'UserController@index');
-Route::post('user', 'UserController@store');
-Route::get('user/{id}', 'UserController@show');
-Route::put('user/{id}', 'UserController@update');
-Route::delete('user/{id}', 'UserController@destroy');
-// --------------------Project-----------------------------
-Route::get('project', 'ProjectController@index');
-Route::post('project', 'ProjectController@store');
-Route::get('project/{id}', 'ProjectController@show');
-Route::put('project/{id}', 'ProjectController@update');
-Route::delete('project/{id}', 'ProjectController@destroy');
-// --------------------ProjectTask-----------------------------
-Route::get('project/{projectId}/tasks', 'ProjectTaskController@tasks');
-Route::post('project/{projectId}/tasks', 'ProjectTaskController@storeTask');
-Route::get('project/{projectId}/tasks/{id}', 'ProjectTaskController@showTask');
-Route::put('project/{projectId}/tasks/{id}', 'ProjectTaskController@updateTask');
-Route::delete('project/{projectId}/tasks/{id}', 'ProjectTaskController@destroyTask');
-Route::get('project/{id}/members', 'ProjectController@members');
-Route::post('project/{id}/members', 'ProjectController@addMember');
-Route::delete('project/{id}/members/{member}', 'ProjectController@removeMember');
-Route::get('project/{id}/members/{member}', 'ProjectMembersController@isMember');
+Route::group(['middleware' => 'oauth'], function()
+{
+    /*
+     | -----------------------------------------------------------------------------------------------------------------
+     | Client routes
+     | -----------------------------------------------------------------------------------------------------------------
+     */
+    Route::resource('client', 'ClientController', ['except' => ['create', 'edit']]);
+    /*
+     | -----------------------------------------------------------------------------------------------------------------
+     | User routes
+     | -----------------------------------------------------------------------------------------------------------------
+     */
+    Route::resource('user', 'UserController', ['except' => ['create', 'edit']]);
+    /*
+     | -----------------------------------------------------------------------------------------------------------------
+     | Project routes
+     | -----------------------------------------------------------------------------------------------------------------
+     */
+    Route::resource('project', 'ProjectController', ['except' => ['create', 'edit']]);
+    /*
+     * Task and members
+     */
+    Route::group(['prefix' => 'project'], function()
+    {
+        /*
+         | -----------------------------------------------------------------------------------------------------------------
+         | ProjectTask routes
+         | -----------------------------------------------------------------------------------------------------------------
+         */
+        Route::get('{projectId}/tasks', 'ProjectTaskController@tasks');
+        Route::post('{projectId}/tasks', 'ProjectTaskController@storeTask');
+        Route::get('{projectId}/tasks/{id}', 'ProjectTaskController@showTask');
+        Route::put('{projectId}/tasks/{id}', 'ProjectTaskController@updateTask');
+        Route::delete('{projectId}/tasks/{id}', 'ProjectTaskController@destroyTask');
+        /*
+         | -----------------------------------------------------------------------------------------------------------------
+         | ProjectMember routes
+         | -----------------------------------------------------------------------------------------------------------------
+         */
+        Route::get('{id}/members', 'ProjectMembersController@members');
+        Route::post('{id}/members', 'ProjectController@addMember');
+        Route::delete('{id}/members/{member}', 'ProjectController@removeMember');
+        Route::get('{id}/members/{member}', 'ProjectMembersController@isMember');
+    });
+});

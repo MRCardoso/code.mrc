@@ -12,6 +12,8 @@ class Repository extends BaseRepository
 
     protected $_model;
 
+    protected $_modelPresenter;
+
     public function model()
     {
         return $this->_model;
@@ -35,5 +37,10 @@ class Repository extends BaseRepository
     public function attributes()
     {
         return $this->model->getFillable();
+    }
+
+    public function presenter()
+    {
+        return $this->_modelPresenter;
     }
 }
