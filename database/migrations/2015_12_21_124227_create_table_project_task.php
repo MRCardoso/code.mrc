@@ -16,7 +16,7 @@ class CreateTableProjectTask extends Migration
         {
             $table->increments('id');
             $table->string('name');
-            $table->integer('project_id');
+            $table->integer('project_id')->unsigned();
             $table->date('start_date');
             $table->date('due_date')->nullable();
             $table->integer('status');
