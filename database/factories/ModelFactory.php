@@ -32,33 +32,28 @@ $factory->define(CodeMRC\Entities\Client::class, function (Faker\Generator $fake
 });
 
 $factory->define(CodeMRC\Entities\Project::class, function (Faker\Generator $faker) {
-    $owner = CodeMRC\Entities\User::orderByRaw("RANDOM()")->first();
-    $client = CodeMRC\Entities\Client::orderByRaw("RANDOM()")->first();
     return [
         'name' => $faker->name,
         'description' => $faker->sentence(),
         'progress' => $faker->numberBetween(0,4),
         'status' => $faker->numberBetween(0,1),
         'due_date' => $faker->date(),
-        'owner_id' => $owner->id,
-        'client_id' => $client->id,
+        'owner_id' => rand(1,10),
+        'client_id' => rand(1,10),
     ];
 });
 $factory->define(CodeMRC\Entities\ProjectTask::class, function (Faker\Generator $faker) {
-    $project = CodeMRC\Entities\Project::orderByRaw("RANDOM()")->first();
     return [
         'name' => $faker->name,
-        'project_id' => $project->id,
+        'project_id' => rand(1,10),
         'start_date' => $faker->date(),
         'due_date' => NULL,
         'status' => rand(1,0)
     ];
 });
 $factory->define(CodeMRC\Entities\ProjectMembers::class, function (Faker\Generator $faker) {
-    $user = CodeMRC\Entities\User::orderByRaw("RANDOM()")->first();
-    $project = CodeMRC\Entities\Project::orderByRaw("RANDOM()")->first();
     return [
-        'user_id' => $user->id,
-        'project_id' => $project->id,
+        'user_id' => rand(1,10),
+        'project_id' => rand(1,10),
     ];
 });
