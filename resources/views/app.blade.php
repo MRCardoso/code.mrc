@@ -1,77 +1,76 @@
-<!doctype html>
-<html>
-    <head>
-        <title>
-            laravel 5.1
-        </title>
-        <link rel="stylesheet" href="{{ url('/lib/bootstrap/dist/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ url('/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css') }}">
-        <link rel="stylesheet" href="{{ url('/css/style.css') }}">
-    </head>
-    <body>
-        @include('partials.menu')
-        @if(!isset($save))
-            <div class="container">
-                @include('partials.path',['module'=>$module])
-                @if($output!==array())
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="col-md-11">
-                            <div class="control-label">
-                                <strong>
-                                    Total de Registros {{$output->total()}}
-                                </strong>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-btn">
-                                <a href="{{ url('/'.strtolower($module).'/create') }}" class="btn btn-success">
-                                    <span class="glyphicon glyphicon-plus"></span> Novo
-                                </a>
-                            </span>
-                        </div>
-                    </div>
-                    @yield('content')
-                    <div class="panel-footer">
-                        <div class="text-right">
-                            {!! $output->render() !!}
-                        </div>
-                    </div>
-                </div>
-                @endif
-            </div>
-        @else
-            <div class="content content-small">
-                @include('partials.path',['module'=>$module])
-                @yield('content')
-            </div>
-        @endif
-        <!-- Modal -->
-        <div class="modal fade modal-remove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                {!! Form::open(array('url'=>'','method' => 'delete','id'=>'form-delete')) !!}
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="alert alert-warning">
-                            Voce deseja remover este {{$module}}
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary">Remover</button>
-                    </div>
-                </div>
-                {!! Form::close() !!}
-            </div>
-        </div>
-        <script type="text/javascript" src="{{ url('/lib/jquery/dist/jquery.js') }}"></script>
-        <script type="text/javascript" src="{{ url('/lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-        <script type="text/javascript" src="{{ url('/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
-        <script type="text/javascript" src="{{ url('/js/mask.js') }}"></script>
-        <script type="text/javascript" src="{{ url('/js/script.js') }}"></script>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Laravel</title>
+	@if( Config::get('app.debug') )
+		<link href="{{ asset("build/css/vendor/bootstrap.min.css") }}" rel="stylesheet" />
+		<link href="{{ asset("build/css/vendor/bootstrap-theme.min.css") }}" rel="stylesheet" />
+	@else
+		<link href="{{ elixir("css/all.css") }}" rel="stylesheet" />
+	@endif
+	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+					<span class="sr-only">Toggle Navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Laravel</a>
+			</div>
+
+			<div class="collapse navbar-collapse" id="navbar">
+				<ul class="nav navbar-nav">
+					<li><a href="{{ url('/') }}">Welcome</a></li>
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right">
+					@if(auth()->guest())
+						@if(!Request::is('auth/login'))
+							<li><a href="{{ url('/auth/login') }}">Login</a></li>
+						@endif
+						@if(!Request::is('auth/register'))
+							<li><a href="{{ url('/auth/register') }}">Register</a></li>
+						@endif
+					@else
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ auth()->user()->name }} <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
+							</ul>
+						</li>
+					@endif
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	@yield('content')
+	<!-- Scripts -->
+	@if( Config::get('app.debug') )
+		<script src="{{ asset('build/js/vendor/jquery.min.js') }}"></script>
+		<script src="{{ asset('build/js/vendor/angular.min.js') }}"></script>
+		<script src="{{ asset('build/js/vendor/angular-route.min.js') }}"></script>
+		<script src="{{ asset('build/js/vendor/angular-resource.min.js') }}"></script>
+		<script src="{{ asset('build/js/vendor/angular-animate.min.js') }}"></script>
+		<script src="{{ asset('build/js/vendor/angular-messages.min.js') }}"></script>
+		<script src="{{ asset('build/js/vendor/ui-bootstrap.min.js') }}"></script>
+		<script src="{{ asset('build/js/vendor/navbar.min.js') }}"></script>
+	@else
+		<script src="{{ elixir('js/all.js') }}"></script>
+	@endif
+</body>
 </html>

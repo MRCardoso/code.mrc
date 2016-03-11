@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return "Welcome";
+    return view('app');
 });
 // OAuth generate token
 Route::post('oauth/access_token', function(){
