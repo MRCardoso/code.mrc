@@ -27,6 +27,9 @@ config.vendor_path_js = [
  config.bower_path + '/angular-messages/angular-messages.min.js',
  config.bower_path + '/angular-bootstrap/ui-bootstrap.min.js',
  config.bower_path + '/angular-strap/dist/modules/navbar.min.js',
+ config.bower_path + '/angular-cookies/angular-cookies.min.js',
+ config.bower_path + '/query-string/query-string.js',
+ config.bower_path + '/angular-oauth2/dist/angular-oauth2.js'
 ];
 /*
  | ------------------------------------------------------------
@@ -67,9 +70,14 @@ gulp.task('copy-styles', function () {
    .pipe(gulp.dest(config.build_path_css))
    .pipe(liveReload());
 
-   gulp.src(config.vendor_path_css)
-   .pipe(gulp.dest(config.build_vendor_path_css))
-   .pipe(liveReload());
+    // copy the fonts bootstrap
+    gulp.src([config.bower_path + '/bootstrap/fonts/*'])
+    .pipe(gulp.dest(config.build_path_css+'/fonts'))
+    .pipe(liveReload());
+
+    gulp.src(config.vendor_path_css)
+    .pipe(gulp.dest(config.build_vendor_path_css))
+    .pipe(liveReload());
 });
 
 /*
